@@ -118,7 +118,7 @@ void Window::CenterCursor() {
 
 void Window::SetCursorLocked(bool locked) {
     this->lockedCursor = locked;
-    ShowCursor(this->lockedCursor);
+    ShowCursor(!this->lockedCursor);
     if (this->lockedCursor) {
         this->CenterCursor();
     }
