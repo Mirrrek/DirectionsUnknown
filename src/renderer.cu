@@ -84,13 +84,17 @@ void Renderer::Clear(uint32_t color) {
     uint32_t blockCount = ((uint32_t)this->width * (uint32_t)this->height + blockSize - 1) / blockSize;
 
     ClearKernel << <blockCount, blockSize >> > (this->devicePixelBuffer, this->width, this->height, color);
+
+    cudaDeviceSynchronize();
 }
 
 void Renderer::Render() {
     uint16_t blockSize = 1024;
     uint32_t blockCount = ((uint32_t)this->width * (uint32_t)this->height + blockSize - 1) / blockSize;
 
-    RenderKernel << <blockCount, blockSize >> > (this->devicePixelBuffer, this->width, this->height, clock());
+    RenderKernel << <blockCount, blockSize >> > (this->devicePixelBuffer, this->width, this->height, cameraPosition, cameraRotation, this->blockIDs, this->blockDescriptors);
+
+    cudaDeviceSynchronize();
 }
 
 void Renderer::RenderImage(Image* image, Renderer::Rectangle source, Renderer::Rectangle destination) {
@@ -108,6 +112,8 @@ void Renderer::RenderImage(Image* image, Renderer::Rectangle source, Renderer::R
     uint32_t blockCount = ((uint32_t)destination.width * (uint32_t)destination.height + blockSize - 1) / blockSize;
 
     RenderImageKernel << <blockCount, blockSize >> > (this->devicePixelBuffer, this->width, this->height, image->GetDevicePixelBuffer(), image->GetWidth(), image->GetHeight(), source, destination);
+
+    cudaDeviceSynchronize();
 }
 
 Renderer::RenderOutput Renderer::FinishRender() {
