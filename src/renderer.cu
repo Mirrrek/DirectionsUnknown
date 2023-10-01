@@ -30,7 +30,7 @@ __global__ void RenderKernel(uint32_t* devicePixelBuffer, uint16_t width, uint16
     }
 }
 
-__global__ void DrawImageKernel(uint32_t* devicePixelBuffer, uint16_t screenWidth, uint16_t screenHeight, uint32_t* deviceImagePixelBuffer, uint16_t imageWidth, uint16_t imageHeight, Renderer::Rectangle source, Renderer::Rectangle destination) {
+__global__ void RenderImageKernel(uint32_t* devicePixelBuffer, uint16_t screenWidth, uint16_t screenHeight, uint32_t* deviceImagePixelBuffer, uint16_t imageWidth, uint16_t imageHeight, Renderer::Rectangle source, Renderer::Rectangle destination) {
     uint32_t index = blockIdx.x * blockDim.x + threadIdx.x;
     uint32_t stride = blockDim.x * gridDim.x;
 
@@ -93,7 +93,7 @@ void Renderer::Render() {
     RenderKernel << <blockCount, blockSize >> > (this->devicePixelBuffer, this->width, this->height, clock());
 }
 
-void Renderer::DrawImage(Image* image, Renderer::Rectangle source, Renderer::Rectangle destination) {
+void Renderer::RenderImage(Image* image, Renderer::Rectangle source, Renderer::Rectangle destination) {
     if (destination.x >= this->width || destination.y >= this->height || destination.x + destination.width <= 0 || destination.y + destination.height <= 0) {
         return;
     }
@@ -107,7 +107,7 @@ void Renderer::DrawImage(Image* image, Renderer::Rectangle source, Renderer::Rec
     uint16_t blockSize = 1024;
     uint32_t blockCount = ((uint32_t)destination.width * (uint32_t)destination.height + blockSize - 1) / blockSize;
 
-    DrawImageKernel << <blockCount, blockSize >> > (this->devicePixelBuffer, this->width, this->height, image->GetDevicePixelBuffer(), image->GetWidth(), image->GetHeight(), source, destination);
+    RenderImageKernel << <blockCount, blockSize >> > (this->devicePixelBuffer, this->width, this->height, image->GetDevicePixelBuffer(), image->GetWidth(), image->GetHeight(), source, destination);
 }
 
 Renderer::RenderOutput Renderer::FinishRender() {

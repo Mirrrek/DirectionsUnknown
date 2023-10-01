@@ -25,7 +25,7 @@ public:
     void StartRender();
     void Clear(uint32_t color = 0x000000);
     void Render();
-    void DrawImage(Image* image, Rectangle source, Rectangle destination);
+    void RenderImage(Image* image, Rectangle source, Rectangle destination);
     RenderOutput FinishRender();
     uint16_t GetWidth();
     uint16_t GetHeight();
