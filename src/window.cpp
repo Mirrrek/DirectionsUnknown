@@ -104,7 +104,7 @@ bool Window::IsFullscreen() {
 
 void Window::RefreshScreen(uint32_t* pixelBuffer, uint16_t sourceWidth, uint16_t sourceHeight) {
     this->bitmapInfo.bmiHeader.biWidth = sourceWidth;
-    this->bitmapInfo.bmiHeader.biHeight = -sourceHeight;
+    this->bitmapInfo.bmiHeader.biHeight = sourceHeight;
     StretchDIBits(this->hdc, 0, 0, this->width, this->height, 0, 0, sourceWidth, sourceHeight, pixelBuffer, &this->bitmapInfo, DIB_RGB_COLORS, SRCCOPY);
 }
 
