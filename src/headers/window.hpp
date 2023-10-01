@@ -24,10 +24,6 @@ public:
     void OnResize(uint16_t newWidth, uint16_t newHeight);
     void OnResizeEnd();
     void OnMouseMove(int16_t x, int16_t y);
-    struct MouseMoveEventData {
-        int16_t x;
-        int16_t y;
-    };
     Keys keys;
 
 private:

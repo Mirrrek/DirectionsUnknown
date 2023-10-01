@@ -1,6 +1,7 @@
-#include "headers/defines.hpp"
-#include "headers/log.hpp"
 #include "headers/window.hpp"
+#include "headers/defines.hpp"
+#include "headers/math.hpp"
+#include "headers/log.hpp"
 
 #include <Windows.h>
 
@@ -154,8 +155,8 @@ void Window::OnResizeEnd() {
 }
 
 void Window::OnMouseMove(int16_t x, int16_t y) {
-    MouseMoveEventData event = { x, y };
-    this->Emit(L"mousemove", &event);
+    Vector2i delta = Vector2i(x, y);
+    this->Emit(L"mousemove", &delta);
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
