@@ -94,8 +94,9 @@ void Window::SetFullscreen(bool fullscreen) {
     SetWindowPos(this->hWnd, HWND_NOTOPMOST, windowX, windowY, windowWidth, windowHeight, SWP_FRAMECHANGED | SWP_NOACTIVATE);
     ShowWindow(this->hWnd, SW_MAXIMIZE);
 
-    this->width = windowWidth;
-    this->height = windowHeight;
+    RECT windowRect;
+    GetClientRect(this->hWnd, &windowRect);
+    this->OnResize((uint16_t)(windowRect.right - windowRect.left), (uint16_t)(windowRect.bottom - windowRect.top));
 }
 
 bool Window::IsFullscreen() {
@@ -176,8 +177,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     break;
     case WM_EXITSIZEMOVE:
     {
-        RECT clientRect;
-        GetClientRect(hWnd, &clientRect);
         window->OnResizeEnd();
     }
     break;
