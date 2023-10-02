@@ -56,7 +56,7 @@ DWORD WINAPI RenderThread(LPVOID lpParam) {
 
     Image exampleImage = Image(L"example.ppm");
 
-    clock_t lastTime = clock();
+    clock_t lastTime = clock() - 1;
     clock_t currentTime = clock();
     while (true) {
         currentTime = clock();
