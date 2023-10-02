@@ -91,6 +91,9 @@ DWORD WINAPI RenderThread(LPVOID lpParam) {
 
         params.renderer->StartRender();
         params.renderer->Render(cameraPosition, cameraRotation, params.world->GetBlockIDs());
+        wchar_t buffer[256];
+        swprintf(buffer, 256, L"FPS: %f\n\nPosition: %.4f %.4f %.4f\nRotation: %.4f %4f", 1.0f / deltaTime, cameraPosition.x, cameraPosition.y, cameraPosition.z, cameraRotation.x, cameraRotation.y);
+        params.renderer->RenderText(buffer, 256);
         Renderer::RenderOutput renderOutput = params.renderer->FinishRender();
         params.window->RefreshScreen(renderOutput.pixelBuffer, renderOutput.width, renderOutput.height);
     }

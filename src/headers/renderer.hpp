@@ -28,6 +28,7 @@ public:
     void Clear(uint32_t color = 0x000000);
     void Render(Vector3 cameraPosition, Vector2 cameraRotation, uint8_t* blockIDs);
     void RenderImage(Image* image, Rectangle source, Rectangle destination);
+    void RenderText(const wchar_t* buffer, uint16_t length, uint16_t x = 0, uint16_t y = 0, uint32_t color = 0xffffff, bool background = true);
     RenderOutput FinishRender();
     uint16_t GetWidth();
     uint16_t GetHeight();
