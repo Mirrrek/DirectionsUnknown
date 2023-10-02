@@ -162,7 +162,7 @@ __global__ void RenderImageKernel(uint32_t* devicePixelBuffer, uint16_t screenWi
             continue;
         }
 
-        devicePixelBuffer[((uint32_t)screenHeight - (uint32_t)y - (uint32_t)destination.y) * (uint32_t)screenWidth + ((uint32_t)x + (uint32_t)destination.x)] = deviceImagePixelBuffer[(uint32_t)imageY * (uint32_t)imageWidth + (uint32_t)imageX];
+        devicePixelBuffer[((uint32_t)screenHeight - 1 - (uint32_t)y - (uint32_t)destination.y) * (uint32_t)screenWidth + ((uint32_t)x + (uint32_t)destination.x)] = deviceImagePixelBuffer[(uint32_t)imageY * (uint32_t)imageWidth + (uint32_t)imageX];
     }
 }
 
